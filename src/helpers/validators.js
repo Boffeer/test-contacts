@@ -7,7 +7,7 @@ export const minLength = (num, ignoreWhiteSpace = false) => {
         return val.length >= num;
     }
 }
-export const phone = ((val, isInternational = false) => {
+export const tel = ((val, isInternational = false) => {
     let regex = /^(\+7|8)?[\-\s]?\(?\d{3}\)?[\-\s]?\d{3}[\-\s]?\d{2}[\-\s]?\d{2}$/;
 
     if (isInternational) {

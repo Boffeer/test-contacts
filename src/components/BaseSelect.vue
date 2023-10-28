@@ -6,7 +6,7 @@
   }">
     <select class="select__input"
             tabindex="-1"
-            v-model="selectValue"
+            v-model="internalValue"
     >
       <option v-for="option in options" :value="option.value">{{ option.text }}</option>
     </select>
@@ -23,12 +23,12 @@
         <ul class="select__list">
           <li v-for="option in options" class="select__element">
             <button class="select__button"
-                    :class="{'select__button--active': selectValue == option.value }"
+                    :class="{'select__button--active': internalValue == option.value }"
                     type="button"
-                    @click="selectValue = option.value; toggleSelect()"
+                    @click="internalValue = option.value; toggleSelect()"
             >
               <span class="select__button-text">{{ option.text }}</span>
-              <IconYes v-if="selectValue == option.value" class="select__button-icon" />
+              <IconYes v-if="internalValue == option.value" class="select__button-icon" />
             </button>
           </li>
         </ul>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import {ref, watch} from 'vue';
+import {ref, watch, computed, reactive} from 'vue';
 import IconYes from "./icons/IconYes.vue"
 import IconAngleBottom from "./icons/IconAngleBottom.vue";
 import IconError from "./icons/IconError.vue";
@@ -83,21 +83,33 @@ export default {
   ],
   setup(props, {emit}) {
     const isSelectOpened = ref(false);
-    const selectValue = ref(props.value);
+    const internalValue = ref(props.value);
 
     const options = ref(props.options);
     const placeholder = ref(props.placeholder);
+    const initialPlaceholder = props.placeholder;
 
-    watch(selectValue, (currentOption) => {
-      placeholder.value = options.value.find(option => {
-        return option.value == currentOption;
-      }).text;
+    watch( () => props.value, (newVal) => {
+      internalValue.value = newVal;
+    })
 
-      emit('update:value', currentOption);
-    });
+    watch(internalValue, (newVal) => {
+      if (newVal == false) {
+        placeholder.value = initialPlaceholder;
+      } else {
+        placeholder.value = options.value.find(option => {
+          return option.value == newVal;
+        }).text
+      };
+
+      emit('update:value', newVal);
+    })
+
+    // watch(selectValue, (currentOption) => {
+    // });
 
     if (placeholder.value === false) {
-      selectValue.value = options.value[0].value;
+      internalValue.value = options.value[0].value;
     }
 
 
@@ -118,12 +130,13 @@ export default {
 
     return {
       isSelectOpened,
-      selectValue,
+      // selectValue,
       options,
       placeholder,
       IconYes,
       IconAngleBottom,
       toggleSelect,
+      internalValue
     }
   }
 }
@@ -323,6 +336,7 @@ function initSelects(selectNodes) {
   transform: translateY(-2rem);
   box-shadow: 0px 0px 6px 0px rgba(148, 181, 225, 0.35);
   margin-top: 0.8em;
+  pointer-events: none;
 
   //@media (max-width: $tablet) {
   //  padding: 2rem;
@@ -333,6 +347,7 @@ function initSelects(selectNodes) {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+  pointer-events: initial;
 }
 
 .select__button {

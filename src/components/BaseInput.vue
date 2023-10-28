@@ -15,9 +15,10 @@
           :placeholder="placeholder"
           :type="type"
           :readonly="type === 'readonly'"
-          v-model="value"
-          v-mask="type === 'tel' ? '+7 (###) ###-##-##' : ''"
+          v-model="internalValue"
+          v-mask="'+7 (###) ###-##-##'"
           @input="$emit('update:value', $event.target.value)"
+          @change="$emit('update:value', $event.target.value)"
           @blur="$emit('update:touched')"
       >
       <input v-else
@@ -27,13 +28,14 @@
              :placeholder="placeholder"
              :type="type"
              :readonly="type === 'readonly'"
-             v-model="value"
+             v-model="internalValue"
              @input="$emit('update:value', $event.target.value)"
+             @change="$emit('update:value', $event.target.value)"
              @blur="$emit('update:touched')"
       >
       <small v-if="errors.required && touched" class="input__error">{{ errors.required }}</small>
       <small v-else-if="errors.minLength && touched" class="input__error">{{ errors.minLength }}</small>
-      <small v-else-if="errors.phone && touched" class="input__error">{{ errors.phone }}</small>
+      <small v-else-if="errors.tel && touched" class="input__error">{{ errors.tel }}</small>
       <small v-else-if="errors.email && touched" class="input__error">{{ errors.email }}</small>
       <span v-if="isInvalid" class="input__icon">
         <IconError />
@@ -43,7 +45,7 @@
 </template>
 
 <script>
-import {computed, ref} from 'vue';
+import {computed, ref, watch, reactive} from 'vue';
 import {mask} from 'vue-the-mask'
 import IconError from "./icons/IconError.vue";
 
@@ -95,6 +97,12 @@ export default {
     const autocomplete = ref(props.autocomplete);
     const value = ref(props.value);
 
+    const internalValue = ref(props.value);
+
+    watch(() => props.value, (newVal) => {
+      internalValue.value = newVal;
+    })
+
     const isInvalid = computed(() => {
       return !props.valid && props.touched;
     });
@@ -105,7 +113,7 @@ export default {
       placeholder,
       name,
       autocomplete,
-      value,
+      internalValue,
       isInvalid,
     }
   }

@@ -7,10 +7,10 @@ export const getFormattedDate = (timestamp) => {
 
     return `${day}.${month}.${year}`
 }
-export const getLinkPhone = (formattedPhone, countryCode = '+7') => {
-    let numericPhone  = formattedPhone.replace(countryCode, '').replace(/\D/g, '');
+export const getLinkTel = (formattedTel, countryCode = '+7') => {
+    let numericTel  = formattedTel.replace(countryCode, '').replace(/\D/g, '');
 
-    const telLink = `tel:${countryCode}${numericPhone}`;
+    const telLink = `tel:${countryCode}${numericTel}`;
 
     return telLink;
 }

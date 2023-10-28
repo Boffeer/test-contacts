@@ -5,28 +5,41 @@ import BaseContacts from "./components/BaseContacts.vue";
 import EditContact from "./components/EditContact.vue";
 import IconSuccess from "./components/icons/IconSuccess.vue";
 
-import {reactive} from "vue";
+import {reactive, ref} from "vue";
 
-const notifications = reactive([
-  {
+const notifications = ref([]);
+
+const currentContact = ref({});
+
+const handleContactChange = (contact) => {
+  currentContact.value = contact;
+
+  const id = contact.id
+
+  notifications.value.push({
+    id,
     message: 'Контакт успешно изменён',
-    icon: IconSuccess
-  },
-])
+  })
+
+  setTimeout(() => {
+    notifications.value = notifications.value.filter(snack => snack.id != id)
+  }, 3000)
+
+}
 
 </script>
 
 <template>
-  <BaseHeader></BaseHeader>
+  <BaseHeader/>
   <main class="main">
-    <BaseContacts></BaseContacts>
-    <EditContact></EditContact>
+    <BaseContacts @call-edit-contact-form="handleContactChange"/>
+    <EditContact/>
   </main>
 
-  <div v-if="false" class="notification-area">
+  <div class="notification-area">
     <BaseSnack v-for="snack in notifications">
-      <template v-if="snack.icon" #icon>
-        <component :is="snack.icon"></component>
+      <template #icon>
+        <IconSuccess/>
       </template>
       {{ snack.message }}
     </BaseSnack>

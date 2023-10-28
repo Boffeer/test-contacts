@@ -1,46 +1,47 @@
 import {computed, ref} from "vue";
 import {defineStore} from "pinia";
+import {getFormattedDate} from "../helpers/transformers";
 
 export const useContactsStore = defineStore('contactsStore', () => {
     const contacts = ref([
         {
-            id: 0,
+            id: 1697922300000,
             name: 'Айтишник Данила',
-            phone: '+7(987)654-78-09',
+            tel: '+7(987)654-78-09',
             email: 'nelfeelingood@gmail.com',
-            created: 1697922300000,
+            created: '22.10.23',
             category: "kinsfolk"
         },
         {
-            id: 1,
+            id: 1697922400000,
             name: 'Арендодатель Виктория',
-            phone: '+7(987)654-78-10',
+            tel: '+7(987)654-78-10',
             email: 'nelfeelingood@gmail.com',
-            created: 1697922400000,
+            created: '22.10.23',
             category: 'colleague',
         },
         {
-            id: 2,
+            id: 1698008400000,
             name: 'Двери Вадим',
-            phone: '+7(987)654-78-11',
+            tel: '+7(987)654-78-11',
             email: 'nelfeelingood@gmail.com',
-            created: 1698008400000,
+            created: '23.10.23',
             category: 'kinsfolk',
         },
         {
-            id: 3,
+            id: 1704056400000,
             name: 'Доставка Андрей Стоянов',
-            phone: '+7(987)654-78-12',
+            tel: '+7(987)654-78-12',
             email: 'nelfeelingood@gmail.com',
-            created: 1704056400000,
+            created: '01.01.24',
             category: 'colleague',
         },
         {
-            id: 4,
+            id: 1697922002000,
             name: 'Контакт с очень длинным именем просто чтобы потестить интерфейс на разваливаемость',
-            phone: '+7(987)654-78-09',
+            tel: '+7(987)654-78-09',
             email: 'nelfeelingood@gmail.com',
-            created: 1697922002000,
+            created: '22.10.23',
             category: 'kinsfolk',
         },
     ]);
@@ -60,12 +61,12 @@ export const useContactsStore = defineStore('contactsStore', () => {
 
     const filterContactsByCategory = () => {
         if (activeCategory.value === 'all') {
-            return contacts.value.sort((a, b) => a.created - b.created);
+            return contacts.value.sort((a, b) => a.id - b.id);
         }
 
         return contacts.value
             .filter(contact => contact.category === activeCategory.value)
-            .sort((a, b) => a.created - b.created);
+            .sort((a, b) => a.id - b.id);
     }
 
     const setActiveCategory = (category) => {
@@ -75,7 +76,7 @@ export const useContactsStore = defineStore('contactsStore', () => {
     const createContact = (contactData) => {
         const date = new Date().getTime()
         contactData.id = date;
-        contactData.created = date;
+        contactData.created = getFormattedDate(date);
         contacts.value.push(contactData);
         closeContactForm();
         currentContactId.value = null;
@@ -91,12 +92,19 @@ export const useContactsStore = defineStore('contactsStore', () => {
         formType.value = 'edit';
         isFormVisible.value = true;
         currentContactId.value = contact.id;
+        // console.log(contact)
     }
     const closeContactForm = () => {
         isFormVisible.value = false;
+        currentContactId.value = null;
     }
     const deleteCurrentContact = () => {
         contacts.value = contacts.value.filter(contact => contact.id != currentContactId.value);
+        closeContactForm();
+    }
+    const getCurrentContact = () =>{
+        if (currentContactId.value === null) return null;
+        return contacts.value.find(contact => contact.id === currentContactId.value)
     }
 
     return {
@@ -114,5 +122,6 @@ export const useContactsStore = defineStore('contactsStore', () => {
         callEditContactForm,
         closeContactForm,
         deleteCurrentContact,
+        getCurrentContact,
     }
 })

@@ -44,7 +44,7 @@
       <div class="contacts__body">
         <ContactsRow v-for="contact in contactsStore.filterContactsByCategory()"
                      :contact="contact"
-                     @click="contactsStore.callEditContactForm(contact)"
+                     @click="emitCallEditContactForm(contact)"
         />
       </div>
     </div>
@@ -68,10 +68,18 @@ export default {
     ContactsRow,
     IconPlus,
   },
-  setup() {
+  emits: [
+      'call-edit-contact-form'
+  ],
+  setup(_, {emit}) {
     const contactsStore = useContactsStore();
 
-    return { contactsStore, }
+    const emitCallEditContactForm  = (contact) => {
+      emit('call-edit-contact-form', contact);
+      contactsStore.callEditContactForm(contact)
+    }
+
+    return { contactsStore, emitCallEditContactForm }
   }
 }
 </script>

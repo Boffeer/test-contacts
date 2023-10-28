@@ -6,20 +6,20 @@
     </div>
     <div class="contacts__cell contacts__cell--doubled">
       <div class="contacts__cell">
-        <a class="contacts__cell-value" :href="getLinkPhone(contact.phone)">{{ contact.phone }}</a>
+        <a class="contacts__cell-value" :href="getLinkTel(contact.tel)">{{ contact.tel }}</a>
       </div>
       <div class="contacts__cell">
         <a class="contacts__cell-value" :href="`mailto:${contact.email}`">{{ contact.email }}</a>
       </div>
     </div>
     <div class="contacts__cell">
-      <p class="contacts__cell-value">{{ getFormattedDate(contact.created) }}</p>
+      <p class="contacts__cell-value">{{ contact.created }}</p>
     </div>
   </div>
 </template>
 
 <script>
-import {getFormattedDate, getLinkPhone} from "../helpers/transformers";
+import {getLinkTel} from "../helpers/transformers";
 import {useContactsStore} from "../stores/ContactsStore";
 // import {ref} from "vue";
 
@@ -34,8 +34,7 @@ export default {
     const contactsStore = useContactsStore();
 
     return {
-      getFormattedDate,
-      getLinkPhone,
+      getLinkTel,
       contactsStore,
     }
   }

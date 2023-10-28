@@ -2,11 +2,21 @@
   <Teleport to=".header__container">
     <div class="edit-contact__header" v-if="contactsStore.isFormVisible">
       <div class="edit-contact__header-title">
-        <div class="edit-contact__header-icon">
-          д
+        <div class="edit-contact__header-icon" :class="{'edit-contact__header-icon--user-profile': currentContact != null}">
+          <template v-if="currentContact == null">
+            <IconNewContact />
+          </template>
+          <template v-else>
+            {{ currentContact.name[0] }}
+          </template>
         </div>
         <div class="edit-contact__header-name">
-          двери вадим
+          <template v-if="currentContact == null">
+            Добавить контакт
+          </template>
+          <template v-else>
+            {{ currentContact.name }}
+          </template>
         </div>
       </div>
       <button class="edit-contact__button-close" @click="contactsStore.closeContactForm">
@@ -72,17 +82,22 @@ import IconDelete from "./icons/IconDelete.vue";
 import IconSave from "./icons/IconSave.vue";
 import IconLoading from "./icons/IconLoading.vue";
 import IconClose from "./icons/IconClose.vue";
+import IconNewContact from "./icons/IconNewContact.vue";
 
 import {useForm} from "../use/form"
 import {useContactsStore} from "../stores/ContactsStore";
 
-import {required, minLength, phone, email} from "../helpers/validators";
+import {required, minLength, tel, email} from "../helpers/validators";
+
+import {storeToRefs} from "pinia";
 
 import {ref, reactive, computed, watch} from "vue";
+import {getFormattedDate} from "../helpers/transformers";
 
 
 export default {
   components: {
+    IconNewContact,
     IconClose,
     BaseInput,
     BaseSelect,
@@ -94,6 +109,9 @@ export default {
   setup() {
 
     const contactsStore = useContactsStore();
+    const currentContact = ref(null);
+
+    const {currentContactId} = storeToRefs(contactsStore)
 
     const form = useForm({
       name: {
@@ -116,10 +134,10 @@ export default {
         type: 'tel',
         placeholder: '+7(___)-___-__-__',
         value: '',
-        validators: {phone},
+        validators: {tel},
         errorMessages: {
           required,
-          phone: 'Некорректный номер',
+          tel: 'Некорректный номер',
         },
         showCondition: () => true,
       },
@@ -166,6 +184,16 @@ export default {
       },
     });
 
+    watch(currentContactId, (newVal, oldVal) => {
+      currentContact.value = contactsStore.getCurrentContact();
+
+      let valueToSet = '';
+      for (const key in form.elements) {
+        if (currentContact.value != null) valueToSet = currentContact.value[key]
+        form.elements[key].value = valueToSet;
+      }
+    })
+
     const submit = () => {
       for (const key in form.elements) {
         form.elements[key].touched = true;
@@ -175,7 +203,7 @@ export default {
 
         const contact = {
           name: form.elements.name.value,
-          phone: form.elements.tel.value,
+          tel: form.elements.tel.value,
           email: form.elements.email.value,
           category: form.elements.category.value,
         }
@@ -186,7 +214,8 @@ export default {
     return {
       form,
       submit,
-      contactsStore
+      contactsStore,
+      currentContact
     }
   }
 }
@@ -248,6 +277,46 @@ export default {
 
   .edit-contact__header-title {
     margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 1rem;
+  }
+
+  .edit-contact__header-icon {
+    --size: 2.4em;
+    min-width: var(--size);
+    width: var(--size);
+    min-height: var(--size);
+    height: var(--size);
+    margin-right: 0.8em;
+  }
+  .edit-contact__header-icon--user-profile {
+    border-radius: var(--size);
+    background-color: var(--c-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--fg-regular);
+    font-weight: 700;
+    font-family: var(--ff-regular);
+  }
+  .edit-contact__header-icon--user-profile span {
+    font-size: 1.2em;
+  }
+
+
+  .edit-contact__header-name {
+    color: #DDD;
+    font-family: var(--ff-regular);
+    font-size: 2em;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 95%;
   }
 
   .edit-contact__button-close {
