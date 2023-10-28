@@ -42,7 +42,10 @@
         </div>
       </div>
       <div class="contacts__body">
-        <ContactsRow v-for="contact in contactsStore.contactsByCategory()" :contact="contact"></ContactsRow>
+        <ContactsRow v-for="contact in contactsStore.filterContactsByCategory()"
+                     :contact="contact"
+                     @click="contactsStore.callEditContactForm(contact)"
+        />
       </div>
     </div>
   </div>
@@ -56,7 +59,7 @@ import IconPlus from "./icons/IconPlus.vue";
 
 import {useContactsStore} from "./../stores/ContactsStore";
 
-import {reactive} from "vue";
+import {reactive, ref, watch} from "vue";
 
 export default {
   components: {
@@ -67,17 +70,10 @@ export default {
   },
   setup() {
     const contactsStore = useContactsStore();
-    // console.log(contactsStore.contactsByCategory().value)
 
-    return {
-      contactsStore,
-    }
+    return { contactsStore, }
   }
 }
-
-
-
-
 </script>
 
 <style scoped lang="scss">

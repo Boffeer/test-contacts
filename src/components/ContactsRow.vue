@@ -6,10 +6,10 @@
     </div>
     <div class="contacts__cell contacts__cell--doubled">
       <div class="contacts__cell">
-        <a class="contacts__cell-value" href="tel:+79876547809">{{ contact.phone }}</a>
+        <a class="contacts__cell-value" :href="getLinkPhone(contact.phone)">{{ contact.phone }}</a>
       </div>
       <div class="contacts__cell">
-        <a class="contacts__cell-value" href="mailto:nelfeelingood@gmail.com">{{ contact.email }}</a>
+        <a class="contacts__cell-value" :href="`mailto:${contact.email}`">{{ contact.email }}</a>
       </div>
     </div>
     <div class="contacts__cell">
@@ -19,15 +19,9 @@
 </template>
 
 <script>
-const getFormattedDate = (timestamp) => {
-  const date = new Date(timestamp);
-
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const year = String(date.getFullYear()).slice(2);
-
-  return `${day}.${month}.${year}`
-}
+import {getFormattedDate, getLinkPhone} from "../helpers/transformers";
+import {useContactsStore} from "../stores/ContactsStore";
+// import {ref} from "vue";
 
 export default {
   props: {
@@ -36,13 +30,13 @@ export default {
       required: true,
     }
   },
-  setup(props) {
-    // props.contact.created = getFormattedDate(props.contact.created);
-    // console.log(props.contact)
+  setup() {
+    const contactsStore = useContactsStore();
 
     return {
-      contact: props.contact,
       getFormattedDate,
+      getLinkPhone,
+      contactsStore,
     }
   }
 }
@@ -56,6 +50,7 @@ export default {
     font-size: 1rem;
     align-items: center;
     border-bottom: 0.1em solid #EAF2FD;
+    cursor: pointer;
   }
   .contacts__row:last-child {
     border-bottom: none;

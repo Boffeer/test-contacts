@@ -16,10 +16,18 @@
   </Teleport>
   <div class="edit-contact" :class="{'edit-contact--visible': contactsStore.isFormVisible}">
     <form class="edit-contact__form" @submit.prevent="submit">
-      <h3 class="edit-contact__title">Контакт</h3>
+      <h3 class="edit-contact__title">
+        <template v-if="contactsStore.formType === 'create'">
+          Новый контакт
+        </template>
+        <template v-else-if="contactsStore.formType === 'edit'">
+          Контакт
+        </template>
+      </h3>
       <fieldset class="edit-contact__fieldset">
         <template v-for="field of form.elements">
-        <component v-if="field.showCondition"
+        <component v-if="field.showCondition()"
+                   :key="field.name"
                    :is="field.component"
                    :label="field.label"
                    :type="field.type"
@@ -41,7 +49,10 @@
           </template>
           Сохранить
         </BaseButton>
-        <BaseButton variation="thirdly" v-if="contactsStore.formType == 'edit'">
+        <BaseButton variation="thirdly"
+                    v-if="contactsStore.formType == 'edit'"
+                    @click.prevent="contactsStore.deleteCurrentContact"
+        >
           <template v-slot:iconLeft>
             <IconDelete />
           </template>
@@ -91,12 +102,13 @@ export default {
         placeholder: 'Например «Андрей»...',
         value: '',
         validators: {
+          required,
           minLength: minLength(3, true)
         },
         errorMessages: {
           minLength: 'Слишком короткое имя',
         },
-        showCondition: true,
+        showCondition: () => true,
       },
 
       tel: {
@@ -106,9 +118,10 @@ export default {
         value: '',
         validators: {phone},
         errorMessages: {
+          required,
           phone: 'Некорректный номер',
         },
-        showCondition: true,
+        showCondition: () => true,
       },
       email: {
         label: 'E-mail',
@@ -117,9 +130,10 @@ export default {
         value: '',
         validators: {email},
         errorMessages: {
+          required,
           email: 'Некорректный e-mail',
         },
-        showCondition: true,
+        showCondition: () => true,
       },
       category: {
         label: 'Категория',
@@ -139,14 +153,16 @@ export default {
         validators: {
           required,
         },
-        showCondition: true,
+        showCondition: () => true,
       },
       created: {
         label: 'Создан',
         type: 'readonly',
         placeholder: '',
         value: '',
-        showCondition: contactsStore.formType === 'edit',
+        showCondition: () => {
+          return contactsStore.formType == 'edit'
+        },
       },
     });
 
@@ -155,7 +171,6 @@ export default {
         form.elements[key].touched = true;
       }
 
-      console.log(form.valid)
       if (form.valid) {
 
         const contact = {
