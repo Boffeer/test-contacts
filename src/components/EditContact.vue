@@ -191,8 +191,30 @@ export default {
       for (const key in form.elements) {
         if (currentContact.value != null) valueToSet = currentContact.value[key]
         form.elements[key].value = valueToSet;
+        form.elements[key].touched = false;
       }
     })
+
+    const updateContact = () => {
+      const contact = contactsStore.getCurrentContact();
+      contact.name = form.elements.name.value
+      contact.tel = form.elements.tel.value
+      contact.email = form.elements.email.value
+      contact.category = form.elements.category.value
+
+      contactsStore.updateContact(contact)
+    }
+
+    const createContact = () => {
+      const contact = {
+        name: form.elements.name.value,
+        tel: form.elements.tel.value,
+        email: form.elements.email.value,
+        category: form.elements.category.value,
+      }
+
+      contactsStore.createContact(contact);
+    }
 
     const submit = () => {
       for (const key in form.elements) {
@@ -201,13 +223,13 @@ export default {
 
       if (form.valid) {
 
-        const contact = {
-          name: form.elements.name.value,
-          tel: form.elements.tel.value,
-          email: form.elements.email.value,
-          category: form.elements.category.value,
+
+        const formMethods = {
+          'create': () => createContact(),
+          'edit': () => updateContact(),
         }
-        contactsStore.createContact(contact);
+        formMethods[contactsStore.formType]()
+
       }
     };
 

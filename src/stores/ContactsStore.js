@@ -107,6 +107,15 @@ export const useContactsStore = defineStore('contactsStore', () => {
         return contacts.value.find(contact => contact.id === currentContactId.value)
     }
 
+    const updateContact = (currentContact) => {
+        const index = contacts.value.findIndex(contact => contact.id == currentContact.id);
+        if (index < 0) {
+            console.warn('Нет такого пользователя')
+            return;
+        }
+        contacts.value[index] = currentContact;
+    }
+
     return {
         contacts,
         categoriesList,
@@ -123,5 +132,6 @@ export const useContactsStore = defineStore('contactsStore', () => {
         closeContactForm,
         deleteCurrentContact,
         getCurrentContact,
+        updateContact,
     }
 })
