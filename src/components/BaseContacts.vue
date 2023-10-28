@@ -1,0 +1,104 @@
+<template>
+  <div class="contacts">
+    <div class="contacts__toolbar">
+      <div class="container contacts__toolbar-container">
+        <BaseSelect :options="[
+                      {
+                        value: 'all',
+                        text: 'Все'
+                      },
+                      ...contactsStore.categoriesList
+                    ]"
+                    @update:value="category => contactsStore.setActiveCategory(category)"
+        />
+
+        <BaseButton :variation="'secondary'"
+                    @click="contactsStore.callNewContactForm"
+        >
+          <template #iconLeft>
+            <IconPlus />
+          </template>
+          Добавить контакт
+        </BaseButton>
+      </div>
+    </div>
+    <div class="container contacts__container">
+      <div class="contacts__head">
+        <div class="contacts__row">
+          <div class="contacts__cell">
+            <h3 class="contacts__cell-title">Контакт</h3>
+          </div>
+          <div class="contacts__cell contacts__cell--doubled">
+            <div class="contacts__cell">
+              <p class="contacts__cell-title">Телефон</p>
+            </div>
+            <div class="contacts__cell">
+              <p class="contacts__cell-title">E-mail</p>
+            </div>
+          </div>
+          <div class="contacts__cell">
+            <p class="contacts__cell-title">Создан</p>
+          </div>
+        </div>
+      </div>
+      <div class="contacts__body">
+        <ContactsRow v-for="contact in contactsStore.contactsByCategory()" :contact="contact"></ContactsRow>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import BaseSelect from "./BaseSelect.vue";
+import BaseButton from "./BaseButton.vue";
+import ContactsRow from "./ContactsRow.vue";
+import IconPlus from "./icons/IconPlus.vue";
+
+import {useContactsStore} from "./../stores/ContactsStore";
+
+import {reactive} from "vue";
+
+export default {
+  components: {
+    BaseSelect,
+    BaseButton,
+    ContactsRow,
+    IconPlus,
+  },
+  setup() {
+    const contactsStore = useContactsStore();
+    // console.log(contactsStore.contactsByCategory().value)
+
+    return {
+      contactsStore,
+    }
+  }
+}
+
+
+
+
+</script>
+
+<style scoped lang="scss">
+  .contacts__toolbar {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 1rem;
+  }
+
+  .contacts__toolbar {
+    border: 0.1em solid #EAF2FD;
+    background: #F9FCFF;
+    margin-bottom: 1.4em;
+  }
+  .contacts__toolbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .contacts__head {
+    margin-bottom: 0.2em;
+  }
+</style>

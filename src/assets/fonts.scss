@@ -1,0 +1,18 @@
+@include font('Proxima Nova', normal, 400, './fonts/proxima-nova/proxima-nova-regular');
+@include font('Proxima Nova', normal, 700, './fonts/proxima-nova/proxima-nova-bold');
+:root {
+  --ff-regular: "Proxima Nova", sans-serif;
+
+  --fz-regular: 2rem;
+  --fz-title: 5.5rem;
+  @media (max-width: $laptop-md) {
+    --fz-title: 4.5rem;
+  }
+  @media (max-width: $tablet) {
+    --fz-regular: 1rem;
+    --fz-title: 2.5rem;
+  }
+  @media (max-width: $mobile-xxs) {
+    // --fz-regular: 1rem;
+  }
+}

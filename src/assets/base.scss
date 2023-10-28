@@ -1,0 +1,124 @@
+:root {
+  --base-size: 1vw;//#{"calc(1vw + 1vh)"};
+
+  --tr: 0.3s;
+  --tr-regular: all var(--tr) ease;
+
+  --p-container: 1.5rem;
+
+
+  // Widths
+  //--w-container: 97.8rem;
+  --w-container: 99.3rem;
+  //--w-container: 123rem;
+  @media (max-width: $tablet-xlg) {
+    --w-container: 100%;
+  }
+
+
+  --z-above-header: 103;
+  --z-burger: 102;
+  --z-header: 100;
+  --z-main: 99;
+  --z-footer: 100;
+
+  --tr-jolly-enter: cubic-bezier(0.5, 0, 0.5, 1);
+}
+
+html {
+  overscroll-behavior: none;
+  --fz-modifier: 0.520834;
+  font-size: #{'calc(var(--fz-modifier) * var(--base-size))'};//calc(0.342466 * var(--base-size)); //10px for 1920×1000
+
+  @media (max-width: $laptop-md) {
+    --fz-modifier: 1.020834;
+  }
+
+  @media (max-width: $tablet) {
+    --fz-modifier: 1.763894;
+  }
+  @media (max-width: $mobile-xxlg) {
+    --fz-modifier: 2.545;
+  }
+
+  @media (max-width: $mobile-xxs) {
+    --fz-modifier: 2.777777; // 360
+  }
+  background-color: var(--bg-app);
+}
+
+body {
+  color: var(--fg-regular);
+  font-family: var(--ff-regular);
+  font-size: var(--fz-regular);
+  font-weight: 400;
+  font-size: 2.4rem;
+  background: inherit;
+
+  overscroll-behavior: none;
+
+  @media (max-width: $tablet-xlg) and (min-width: $mobile-xlg + 1) {
+    font-size: 2rem;
+  }
+  @media (max-width: $mobile-lg) {
+    font-size: 2rem;
+  }
+}
+body._lock {
+  overflow: hidden;
+  touch-action: none;
+}
+
+.wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100%;
+  //overflow: hidden;
+}
+.wrapper > .content {
+  position: relative;
+  z-index: 1;
+  flex: 1 0 auto;
+}
+
+.container {
+  max-width: #{'calc(var(--w-container) + 2 * var(--p-container))'};
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--p-container);
+  padding-right: var(--p-container);
+}
+
+.main {
+  @media (max-width: $laptop-md) {
+    margin-top: auto;
+  }
+}
+
+
+.js_use-bg {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.js_use-bg > * {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: inherit;
+  height: inherit;
+  background-size: inherit;
+  background-repeat: inherit;
+  background-position: inherit;
+  object-fit: cover;
+}
+
+.text-bold {
+  font-weight: 700;
+}
+.text-colored {
+  color: var(--c-primary);
+}
