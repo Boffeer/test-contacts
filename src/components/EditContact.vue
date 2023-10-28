@@ -53,7 +53,7 @@
         </template>
       </fieldset>
       <div class="edit-contact__buttons">
-        <BaseButton variation="primary">
+        <BaseButton variation="primary" :loading="form.loading">
           <template v-slot:iconLeft>
             <IconSave />
           </template>
@@ -217,20 +217,31 @@ export default {
     }
 
     const submit = () => {
-      for (const key in form.elements) {
-        form.elements[key].touched = true;
-      }
 
-      if (form.valid) {
+      if (!form.valid) return;
+      form.loading = true;
 
-
+      setTimeout(() => {
         const formMethods = {
           'create': () => createContact(),
           'edit': () => updateContact(),
         }
+        form.loading = false;
         formMethods[contactsStore.formType]()
 
-      }
+
+        setTimeout(() => {
+          for (const key in form.elements) {
+            form.elements[key].touched = false;
+
+            if (contactsStore.formType === 'edit') return;
+
+            form.elements[key].value = '';
+          }
+        }, 500)
+      }, 3000);
+
+
     };
 
     return {

@@ -3,25 +3,37 @@
             'button-primary': variation === undefined || variation === 'primary',
             'button-secondary': variation === 'secondary',
             'button-thirdly': variation === 'thirdly',
+            'button--loading': loading,
           }"
   >
     <span v-if="$slots['iconLeft']" class="button__icon">
-      <slot name="iconLeft"></slot>
+      <IconLoading v-if="loading"/>
+      <slot v-if="!loading" name="iconLeft"></slot>
     </span>
     <span class="button__text">
       <slot>Кнопка</slot>
     </span>
     <span  v-if="$slots['iconRight']" class="button__icon">
-      <slot name="iconRight"></slot>
+      <IconLoading v-if="loading"/>
+      <slot v-if="!loading" name="iconRight"></slot>
     </span>
   </button>
 </template>
 
-<script setup>
-import {ref} from 'vue';
-const props = defineProps({
-  variation: String,
-});
+<script>
+import IconLoading from "./icons/IconLoading.vue";
+export default {
+  components: {IconLoading},
+  props: {
+    variation: String,
+    loading: {
+      type: Boolean,
+      default: false,
+    }
+  },
+  setup() {
+  }
+}
 </script>
 
 <style lang="scss">
@@ -150,9 +162,22 @@ const props = defineProps({
   margin-left: var(--icon-gap);
 }
 
-.button--wait {
-  opacity: 0.6;
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+
+}
+
+.button--loading.button-primary {
+  --bg: var(--bg-active);
   pointer-events: none;
+}
+.button--loading .button__icon > * {
+  animation: rotate 2s infinite linear;
 }
 
 </style>

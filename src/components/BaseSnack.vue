@@ -11,6 +11,16 @@
 </script>
 
 <style scoped lang="scss">
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: scale(0.7) translateY(2em);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
   .snack {
     display: inline-flex;
     align-items: center;
@@ -20,6 +30,8 @@
     background: var(--bg-app);
     box-shadow: 0px 0px 1.6em 0px rgba(176, 197, 222, 0.50);
     padding: 1.6em 1.2em 1.6em 0.8em;
+    transform-origin: center bottom;
+    animation: pop-in 0.4s
   }
   .snack__icon {
     font-size: 1em;

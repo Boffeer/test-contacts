@@ -1,9 +1,12 @@
 <template>
-  <div class="select" :class="{
-    'select--active': isSelectOpened,
-    'select--has-label': typeof label === 'string',
-    'is-invalid': !valid && touched,
-  }">
+  <div class="select"
+       :class="{
+        'select--active': isSelectOpened,
+        'select--has-label': typeof label === 'string',
+        'is-invalid': !valid && touched,
+        }"
+       v-click-outside="handleClickOutside"
+  >
     <select class="select__input"
             tabindex="-1"
             v-model="internalValue"
@@ -43,12 +46,16 @@ import {ref, watch, computed, reactive} from 'vue';
 import IconYes from "./icons/IconYes.vue"
 import IconAngleBottom from "./icons/IconAngleBottom.vue";
 import IconError from "./icons/IconError.vue";
+import clickOutside from "../helpers/clickOutside";
 
 export default {
   components: {
     IconError,
     IconYes,
     IconAngleBottom
+  },
+  directives: {
+    clickOutside,
   },
   props: {
     label: String,
@@ -105,9 +112,6 @@ export default {
       emit('update:value', newVal);
     })
 
-    // watch(selectValue, (currentOption) => {
-    // });
-
     if (placeholder.value === false) {
       internalValue.value = options.value[0].value;
     }
@@ -128,15 +132,18 @@ export default {
       openSelect();
     }
 
+    const handleClickOutside = (e) => {
+      closeSelect();
+    }
+
     return {
       isSelectOpened,
       // selectValue,
       options,
       placeholder,
-      IconYes,
-      IconAngleBottom,
       toggleSelect,
-      internalValue
+      internalValue,
+      handleClickOutside,
     }
   }
 }

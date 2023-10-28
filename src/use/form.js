@@ -4,6 +4,7 @@ import {useField} from "./field";
 export function useForm(init = {}) {
     const form = reactive({
         elements: {},
+        loading: false,
     });
 
     for (const [key, value] of Object.entries(init)) {
