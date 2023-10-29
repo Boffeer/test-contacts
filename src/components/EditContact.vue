@@ -218,7 +218,7 @@ export default {
 
     const submit = () => {
       for (const key in form.elements) {
-        form.elements[key].touched = false;
+        form.elements[key].touched = true;
       }
 
       if (!form.valid) return;

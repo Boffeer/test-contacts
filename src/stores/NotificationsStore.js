@@ -4,7 +4,8 @@ import {defineStore} from "pinia";
 export const useNotificationsStore = defineStore('notificationsStore', () => {
     const notifications = ref([]);
 
-    const sendNotification  = (message, id) => {
+    const sendNotification  = (message) => {
+        const id = new Date().getTime();
         notifications.value.push({
             id,
             message
@@ -12,7 +13,7 @@ export const useNotificationsStore = defineStore('notificationsStore', () => {
 
         setTimeout(() => {
             destroyNotification(id)
-        }, 30000);
+        }, 3000);
     }
 
     const destroyNotification = (id) => {
