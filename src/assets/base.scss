@@ -5,24 +5,25 @@
   --tr-regular: all var(--tr) ease;
 
   --p-container: 1.5rem;
-
-
-  // Widths
-  //--w-container: 97.8rem;
-  --w-container: 99.3rem;
-  //--w-container: 123rem;
-  @media (max-width: $tablet-xlg) {
-    --w-container: 100%;
+  @media (max-width: 1199px) {
+    --p-container: 3.1rem;
+  }
+  @media (max-width: 991px) {
+    --p-container: 3.4rem;
+  }
+  @media (max-width: 767px) {
+    --p-container: 1.1rem;
   }
 
 
-  --z-above-header: 103;
-  --z-burger: 102;
-  --z-header: 100;
-  --z-main: 99;
-  --z-footer: 100;
-
-  --tr-jolly-enter: cubic-bezier(0.5, 0, 0.5, 1);
+  // Widths
+  --w-container: 99.3rem;
+  @media (max-width: 1919px) {
+    --w-container: 100.4rem;
+  }
+  @media (max-width: $tablet-xlg) {
+    --w-container: 100%;
+  }
 }
 
 html {
@@ -30,20 +31,22 @@ html {
   --fz-modifier: 0.520834;
   font-size: #{'calc(var(--fz-modifier) * var(--base-size))'};//calc(0.342466 * var(--base-size)); //10px for 1920×1000
 
-  @media (max-width: $laptop-md) {
-    --fz-modifier: 1.020834;
+  @media (max-width: 1919px) {
+    --fz-modifier: 0.820834;
+  }
+  @media (max-width: 1199px) {
+    --fz-modifier: 1.02;
+  }
+  @media (max-width: 991px) {
+    --fz-modifier: 1.2;
+  }
+  @media (max-width: 767px) {
+    --fz-modifier: 1.7;
+  }
+  @media (max-width: 575px) {
+    --fz-modifier: 2.65957;
   }
 
-  @media (max-width: $tablet) {
-    --fz-modifier: 1.763894;
-  }
-  @media (max-width: $mobile-xxlg) {
-    --fz-modifier: 2.545;
-  }
-
-  @media (max-width: $mobile-xxs) {
-    --fz-modifier: 2.777777; // 360
-  }
   background-color: var(--bg-app);
 }
 

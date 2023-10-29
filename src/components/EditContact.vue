@@ -217,6 +217,9 @@ export default {
     }
 
     const submit = () => {
+      for (const key in form.elements) {
+        form.elements[key].touched = false;
+      }
 
       if (!form.valid) return;
       form.loading = true;
@@ -240,8 +243,6 @@ export default {
           }
         }, 500)
       }, 3000);
-
-
     };
 
     return {
@@ -257,16 +258,25 @@ export default {
 
 <style lang="scss">
   .edit-contact {
-    padding-top: 2.4em;
+    padding-top: 2.5em;
     font-size: 1rem;
     background-color: #F9FCFF;
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 95%;
+    height: calc(100% - 4.8em);
     transition: all 0.45s ease;
     transform: translateX(100%);
+
+    @media (max-width: 991px) {
+      padding-top: 2.2em;
+    }
+    @media (max-width: 767px) {
+      padding-left: 1.2em;
+      padding-right: 1.2em;
+      padding-top: 1.8em;
+    }
   }
   .edit-contact--visible {
     transform: translateX(0);
@@ -279,6 +289,24 @@ export default {
     padding: 4.8em 6.4em 6.4em;
     background-color: var(--bg-app);
     box-shadow: 0px 0px 6px 0px rgba(148, 181, 225, 0.35);
+
+    @media (max-width: 1919px) {
+      padding: 4.9em 6em 6.4em;
+    }
+    @media (max-width: 1199px) {
+      padding: 4.6em 6.7em 6.4em;
+    }
+    @media (max-width: 991px) {
+      max-width: 76.4em;
+      padding: 5.1em 7em 6.4em;
+    }
+    @media (max-width: 767px) {
+      max-width: 100%;
+      padding: 3.2em 5em 6.4em;
+    }
+    @media (max-width: 575px) {
+      padding: 3em 1.8em 4.8em;
+    }
   }
   .edit-contact__title {
     color: var(--fg-regular);
@@ -288,24 +316,76 @@ export default {
     font-weight: 700;
     line-height: normal;
     margin-bottom: 0.75em;
+
+    @media (max-width: 991px) {
+      font-size: 2.6em;
+      margin-bottom: 1em;
+    }
+    @media (max-width: 767px) {
+      font-size: 2.5em;
+    }
   }
   .edit-contact__fieldset {
     display: grid;
     row-gap: 1.6em;
     margin-bottom: 3.2em;
+
+    @media (max-width: 1919px) {
+      row-gap: 1.9em;
+    }
+    @media (max-width: 1199px) {
+      row-gap: 1.6em;
+    }
+    @media (max-width: 991px) {
+      margin-bottom: 3.8em;
+    }
+    @media (max-width: 767px) {
+      row-gap: 1.75em;
+      margin-bottom: 3.1em;
+    }
+    @media (max-width: 575px) {
+      row-gap: 1.6em;
+      margin-bottom: 3.4em;
+    }
   }
   .edit-contact__buttons {
     padding-left: 16.6em;
     display: flex;
+
+    @media (max-width: 991px) {
+      padding-left: 18.2em;
+    }
+    @media (max-width: 767px) {
+      padding-left: 17.1em;
+    }
+    @media (max-width: 575px) {
+      padding-left: 0em;
+      justify-content: center;
+    }
   }
   .edit-contact__buttons > *:not(:last-child) {
     margin-right: 2.4em;
+
+    @media (max-width: 991px) {
+      margin-right: 3em;
+    }
   }
 
+  @keyframes fade-in-left {
+    from {
+      opacity: 0;
+      transform: translateX(2em);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
   .edit-contact__header {
     display: flex;
     align-items: center;
     justify-content: center;
+    animation: fade-in-left 0.35s;
   }
 
   .edit-contact__header-title {
@@ -314,6 +394,17 @@ export default {
     align-items: center;
     justify-content: flex-start;
     font-size: 1rem;
+    margin-right: -1.7em;
+
+    @media (max-width: 1199px) {
+      margin-right: -3em;
+    }
+    @media (max-width: 991px) {
+      margin-right: -2.2em;
+    }
+    @media (max-width: 575px) {
+      margin-right: -2.6em;
+    }
   }
 
   .edit-contact__header-icon {
@@ -323,6 +414,11 @@ export default {
     min-height: var(--size);
     height: var(--size);
     margin-right: 0.8em;
+
+    @media (max-width: 991px) {
+      --size: 2.2em;
+      margin-right: 1em;
+    }
   }
   .edit-contact__header-icon--user-profile {
     border-radius: var(--size);
@@ -350,6 +446,13 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 95%;
+
+    @media (max-width: 1199px) {
+      font-size: 1.5em;
+    }
+    @media (max-width: 991px) {
+      font-size: 1.4em;
+    }
   }
 
   .edit-contact__button-close {
@@ -361,6 +464,14 @@ export default {
     min-height: var(--size);
     height: var(--size);
     margin-left: auto;
+    margin-right: -1.6em;
+
+    @media (max-width: 1199px) {
+      margin-right: 0;
+    }
+    @media (max-width: 767px) {
+      --size: 2.5em
+    }
   }
 
   .edit-contact__button-close > * {

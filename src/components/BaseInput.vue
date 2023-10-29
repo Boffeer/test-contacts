@@ -148,6 +148,14 @@ export default {
   cursor: text;
   font-family: var(--ff-regular);
   transition:  all 0.3s ease;
+
+  @media (max-width: 991px) {
+    --padding-block: 1em;
+    --fz: 1.2em;
+  }
+  @media (max-width: 767px) {
+    --padding-block: 0.8em;
+  }
 }
 .input.is-readonly {
   cursor: default;
@@ -158,6 +166,17 @@ export default {
   grid-template-columns: 13.6em auto;
   column-gap: 3.2em;
   align-items: center;
+
+  @media (max-width: 991px) {
+    grid-template-columns: 14.9em auto;
+  }
+  @media (max-width: 767px) {
+    grid-template-columns: 13.9em auto;
+  }
+  @media (max-width: 767px) {
+    grid-template-columns: 7.3em auto;
+    column-gap: 1.2em;
+  }
 }
 
 .input__label {

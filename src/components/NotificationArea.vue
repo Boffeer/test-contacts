@@ -7,7 +7,6 @@
       {{ snack.message }}
     </BaseSnack>
   </div>
-
 </template>
 
 <script>
@@ -38,5 +37,13 @@ export default {
     display: inline-grid;
     row-gap: 1.2em;
     justify-items: start;
+
+    @media (max-width: 767px) {
+      top: 6.5rem;
+      left: 0;
+      bottom: unset;
+      width: 100%;
+      justify-items: center;
+    }
   }
 </style>

@@ -75,8 +75,8 @@ export default {
   --lh: 1.2;
   --ls: initial;
 
-  --padding-block: 1.2em;
-  --padding-inline: 1.6em;
+  --padding-block: 1.05em;
+  --padding-inline: 1.7em;
 
   --fg: var(--fg-regular);
   --bg: var(--c-primary);
@@ -88,6 +88,15 @@ export default {
   --border-radius: 0.4em;
 
   text-transform: uppercase;
+
+  @media (max-width: 991px) {
+    --fz: 1.3em;
+    --padding-block: 0.9em;
+  }
+  @media (max-width: 767px) {
+    --fz: 1.2em;
+    --padding-block: 0.8em;
+  }
 }
 .button-primary:hover {
   @media (any-hover:hover) {
@@ -116,6 +125,14 @@ export default {
   --border-radius: 9999px;
 
   text-transform: uppercase;
+
+  @media (max-width: 991px) {
+    --fz: 1.3em;
+    --padding-inline: 2em;
+  }
+  @media (max-width: 767px) {
+    --padding-inline: 1.3em;
+  }
 }
 
 .button-thirdly {
@@ -131,9 +148,19 @@ export default {
   color: inherit;
   font-weight: inherit;
   font-family: inherit;
+
+  @media (max-width: 575px) {
+    white-space: nowrap;
+    overflow: hidden;
+  }
 }
 .button-primary .button__text {
   margin-top: 0.2em;
+}
+.button-secondary .button__text {
+  @media (max-width: 575px) {
+    max-width: 5.5em;
+  }
 }
 .button-thirdly .button__text {
   margin-top: 0.1em;

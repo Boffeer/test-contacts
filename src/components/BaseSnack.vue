@@ -31,7 +31,13 @@
     box-shadow: 0px 0px 1.6em 0px rgba(176, 197, 222, 0.50);
     padding: 1.6em 1.2em 1.6em 0.8em;
     transform-origin: center bottom;
-    animation: pop-in 0.4s
+    animation: pop-in 0.4s;
+
+    @media (max-width: 767px) {
+      background: var(--fg-regular);
+      padding: 1.2em 1.6em;
+      border-radius: 99em
+    }
   }
   .snack__icon {
     font-size: 1em;
@@ -42,6 +48,11 @@
     min-height: var(--size);
     display: block;
     margin-right: 0.05em;
+
+    @media (max-width: 767px) {
+      --size: 1.6em;
+      margin-right: 0.4em;
+    }
   }
 
   .snack__icon > * {
@@ -56,6 +67,12 @@
     font-style: normal;
     font-weight: 400;
     line-height: 1.6;
+
+    @media (max-width: 767px) {
+      color: var(--bg-app);
+      font-size: 1.2em;
+      margin-top: 0.1em;
+    }
   }
 
 </style>

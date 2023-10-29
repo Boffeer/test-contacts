@@ -89,12 +89,28 @@ export default {
     padding-top: 0.8em;
     padding-bottom: 0.8em;
     font-size: 1rem;
-  }
-
-  .contacts__toolbar {
     border: 0.1em solid #EAF2FD;
     background: #F9FCFF;
     margin-bottom: 1.4em;
+
+    @media (max-width: 1199px) {
+      padding-top: 0.5em;
+      padding-bottom: 0.6em;
+      margin-bottom: 1.6em;
+    }
+    @media (max-width: 991px) {
+      padding-top: 0.8em;
+      padding-bottom: 0.8em;
+      margin-bottom: 2em;
+    }
+    @media (max-width: 767px) {
+      padding-top: 0.65em;
+      padding-bottom: 0.65em;
+      margin-bottom: 1.8em;
+    }
+    @media (max-width: 575px) {
+      margin-bottom: 1.5em;
+    }
   }
   .contacts__toolbar-container {
     display: flex;

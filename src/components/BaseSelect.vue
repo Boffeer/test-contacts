@@ -147,53 +147,6 @@ export default {
     }
   }
 }
-
-/*
-function initSelects(selectNodes) {
-  selectNodes.forEach(selectNode => {
-    if (selectNode.classList.contains('is-init')) return;
-
-    const inputNode = selectNode.querySelector('.form-select__input');
-    const toggleNode = selectNode.querySelector('.form-select__toggle');
-    const buttonNodes = [...selectNode.querySelectorAll('.form-select__button')];
-
-    toggleNode.addEventListener('click', handleToggle);
-
-
-    buttonNodes.forEach((buttonNode, index, arr) => {
-      buttonNode.addEventListener('click', () => {
-        buttonNodes.forEach(buttonNode => buttonNode.classList.remove('form-select__button--active'));
-        buttonNode.classList.add('form-select__button--active');
-        inputNode.selectedIndex = index + 1;
-        toggleNode.classList.add('form-select__toggle--selected');
-        toggleNode.textContent = buttonNode.textContent;
-      });
-    });
-
-
-    selectNode.classList.add('is-init')
-  });
-}
-//*/
-
-
-// function handleToggle(evt) {
-//   evt.stopPropagation();
-//   selectNode.classList.toggle('select--active');
-//
-//   if (selectNode.classList.contains('select--active')) {
-//     toggleNode.removeEventListener('click', handleToggle);
-//     document.addEventListener('click', handleDocument);
-//   }
-// }
-//
-// function handleDocument(e) {
-//   selectNode.classList.remove('select--active');
-//
-//   document.removeEventListener('click', handleDocument);
-//   selectNode.addEventListener('click', handleToggle);
-// }
-
 </script>
 
 <style scoped lang="scss">
@@ -224,16 +177,33 @@ function initSelects(selectNodes) {
   max-width: 23.5em;
   width: 100%;
 
-  //@media (max-width: $tablet) {
-  //  --padding: 1.55rem 3.1rem 1.55rem 1rem ;
-  //  --fz: 1.6rem;
-  //}
+  @media (max-width: 991px) {
+    max-width: 25.8em;
+    --fz: 1.6em;
+    --padding: 0.5em 0.9em;
+  }
+  @media (max-width: 767px) {
+    max-width: 24em;
+    --fz: 1.4em;
+    --padding: 0.6em 0.8em;
+  }
+  @media (max-width: 575px) {
+    max-width: 21.9em;
+  }
 }
 
 .select--has-label {
   max-width: 100%;
   --padding: 0.8em;
   --lh: 1.6;
+
+  @media (max-width: 991px) {
+    --fz: 1.2em;
+    --padding: 1.1em 0.8em;
+  }
+  @media (max-width: 767px) {
+    --padding: 0.9em 0.8em;
+  }
 }
 
 
@@ -244,6 +214,10 @@ function initSelects(selectNodes) {
   font-style: normal;
   line-height: 1.2;
   font-weight: 700;
+
+  @media (max-width: 991px) {
+    font-size: 1.3em;
+  }
 }
 
 .select__icon {
@@ -281,6 +255,17 @@ function initSelects(selectNodes) {
   grid-template-columns: 13.6em auto;
   column-gap: 3.2em;
   align-items: center;
+
+  @media (max-width: 991px) {
+    grid-template-columns: 14.9em auto;
+  }
+  @media (max-width: 767px) {
+    grid-template-columns: 13.9em auto;
+  }
+  @media (max-width: 575px) {
+    grid-template-columns: 7.3em auto;
+    column-gap: 1.2em;
+  }
 }
 .select--has-label .select__control {
   position: relative;
