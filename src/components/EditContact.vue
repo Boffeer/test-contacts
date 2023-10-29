@@ -15,7 +15,7 @@
           <span v-else> {{ currentContact.name }} </span>
         </div>
       </div>
-      <button class="edit-contact__button-close" @click="contactsStore.closeContactForm">
+      <button class="edit-contact__button-close" @click="closeForm">
         <IconClose />
       </button>
     </div>
@@ -208,6 +208,14 @@ export default {
       contactsStore.createContact(contact);
     }
 
+    const closeForm = () => {
+      contactsStore.closeContactForm()
+      for (const key in form.elements) {
+        form.elements[key].touched = false;
+      }
+    }
+
+
     const submit = () => {
       for (const key in form.elements) {
         form.elements[key].touched = true;
@@ -241,7 +249,8 @@ export default {
       form,
       submit,
       contactsStore,
-      currentContact
+      currentContact,
+      closeForm
     }
   }
 }
