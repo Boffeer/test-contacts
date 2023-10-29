@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <div class="container header__container">
+    <div class="container header__container" id="header-container">
       <a class="header-logo" href="#" v-if="!contactsStore.isFormVisible">
         <img class="header-logo__icon" src="../assets/logo.svg" alt="Книга контактов" >
         <span class="header-logo__caption">Книга контактов</span>
@@ -9,18 +9,14 @@
   </header>
 </template>
 
-<script>
+<script setup>
 import {useContactsStore} from "../stores/ContactsStore";
 
-export default {
-  setup() {
-    const contactsStore = useContactsStore();
+const contactsStore = useContactsStore();
 
-    return {
-      contactsStore,
-    }
-  }
-}
+defineExpose({
+  contactsStore
+});
 </script>
 
 <style scoped lang="scss">

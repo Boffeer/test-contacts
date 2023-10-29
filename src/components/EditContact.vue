@@ -1,22 +1,18 @@
 <template>
-  <Teleport to=".header__container">
+  <Teleport to="#header-container">
     <div class="edit-contact__header" v-if="contactsStore.isFormVisible">
       <div class="edit-contact__header-title">
-        <div class="edit-contact__header-icon" :class="{'edit-contact__header-icon--user-profile': currentContact != null}">
-          <template v-if="currentContact == null">
-            <IconNewContact />
-          </template>
-          <template v-else>
-            {{ currentContact.name[0] }}
-          </template>
+        <div class="edit-contact__header-icon"
+             :class="{
+                'edit-contact__header-icon--user-profile': currentContact != null
+             }"
+        >
+          <IconNewContact v-if="currentContact == null" />
+          <span v-else>{{ currentContact.name[0] }}</span>
         </div>
         <div class="edit-contact__header-name">
-          <template v-if="currentContact == null">
-            Добавить контакт
-          </template>
-          <template v-else>
-            {{ currentContact.name }}
-          </template>
+          <span v-if="currentContact == null">Добавить контакт</span>
+          <span v-else> {{ currentContact.name }} </span>
         </div>
       </div>
       <button class="edit-contact__button-close" @click="contactsStore.closeContactForm">
@@ -24,15 +20,15 @@
       </button>
     </div>
   </Teleport>
-  <div class="edit-contact" :class="{'edit-contact--visible': contactsStore.isFormVisible}">
+  <div class="edit-contact"
+       :class="{
+          'edit-contact--visible': contactsStore.isFormVisible
+       }"
+  >
     <form class="edit-contact__form" @submit.prevent="submit">
       <h3 class="edit-contact__title">
-        <template v-if="contactsStore.formType === 'create'">
-          Новый контакт
-        </template>
-        <template v-else-if="contactsStore.formType === 'edit'">
-          Контакт
-        </template>
+        <span v-if="contactsStore.formType === 'create'">Новый контакт</span>
+        <span v-else-if="contactsStore.formType === 'edit'">Контакт</span>
       </h3>
       <fieldset class="edit-contact__fieldset">
         <template v-for="field of form.elements">
@@ -77,7 +73,6 @@
 import BaseInput from "./BaseInput.vue";
 import BaseSelect from "./BaseSelect.vue";
 import BaseButton from "./BaseButton.vue";
-
 import IconDelete from "./icons/IconDelete.vue";
 import IconSave from "./icons/IconSave.vue";
 import IconLoading from "./icons/IconLoading.vue";
@@ -85,14 +80,11 @@ import IconClose from "./icons/IconClose.vue";
 import IconNewContact from "./icons/IconNewContact.vue";
 
 import {useForm} from "../use/form"
+import {required, minLength, tel, email} from "../helpers/validators";
 import {useContactsStore} from "../stores/ContactsStore";
 
-import {required, minLength, tel, email} from "../helpers/validators";
-
 import {storeToRefs} from "pinia";
-
-import {ref, reactive, computed, watch} from "vue";
-import {getFormattedDate} from "../helpers/transformers";
+import {ref, watch} from "vue";
 
 
 export default {
@@ -184,7 +176,7 @@ export default {
       },
     });
 
-    watch(currentContactId, (newVal, oldVal) => {
+    watch(currentContactId, () => {
       currentContact.value = contactsStore.getCurrentContact();
 
       let valueToSet = '';
